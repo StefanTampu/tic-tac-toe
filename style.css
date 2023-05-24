@@ -96,6 +96,7 @@ body {
 
 .game-container {
     height: 70%;
+    border-radius: 50%;
     aspect-ratio: 1 / 1;
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
