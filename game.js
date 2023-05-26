@@ -18,3 +18,13 @@ const gameBoard = (() => {
     }
     
 })();
+
+function Player(name, symbol){
+    this.name = name;
+    this.symbol = symbol
+};
+
+const gameFlow = (() => {
+    const optionA = document.getElementById("option-a");
+    optionA.addEventListner("click", )
+})
