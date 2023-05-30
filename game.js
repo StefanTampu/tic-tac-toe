@@ -1,15 +1,22 @@
 const gameContainer = document.querySelector(".game-container");
+const gameBoxes = document.querySelectorAll(".game-box");
 
-const gameBoard = (() => {
+const gameBoard = () => {
     const board = ["","","","","","","","",""];
 
     const boxContent = (index, symbol) => {
         board[index] = symbol;
     };
 
-    const gameBoxes = document.querySelectorAll(".game-box");
+    const resetBoard = () => {
+        board = ["","","","","","","","",""];
+    }
 
-    let turn;
+    const getBoard = () => {
+        return board;
+    }
+
+    return { boxContent, resetBoard, getBoard };
 
     for(let gameBox of gameBoxes){
         gameBox.addEventListener("click", () => {
@@ -25,28 +32,51 @@ const gameBoard = (() => {
         })
     }
     
-});
+};
 
-function Player(name, symbol){
+const playerFactory = (name, symbol) => {
     this.name = name;
-    this.symbol = symbol
+    this.symbol = symbol;
+    const getName = () => {
+        return name
+    };
+    const getSymbol = () => {
+        return symbol
+    };
+    return { getName, getSymbol };
 };
 
 const gameFlow = (() => {
     const playerList = [];
 
+    const assignPlayers = (() => {
+        const first = playerFactory("Player One", "X");
+        const second = playerFactory("Player Two", "O");
+
+        let turn = 0;
+        let currentPlayer;
+        for(let gameBox of gameBoxes){
+            gameBox.addEventListener("click", () => {
+                if(turn%2 === 1){
+                    currentPlayer = second;
+                } else {
+                    currentPlayer = first;
+                }
+                gameBox.textContent = currentPlayer.getSymbol();
+                turn++;
+            })
+        }
+
+        return currentPlayer;
+    });
+
     const optionA = document.getElementById("option-a");
     optionA.addEventListener("click", () => {
-        const first = new Player("Player One", "X");
-        const second = new Player("Player Two", "O");
-        playerList.push(first, second);
+        assignPlayers();
     });
 
     const startButton = document.querySelector(".start-button");
     startButton.addEventListener("click", () => {
-
-
-
-        gameBoard();
-    })
+        startButton.textContent = "Restart";
+    });
 })();
