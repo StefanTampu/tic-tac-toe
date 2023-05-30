@@ -1,7 +1,8 @@
 const gameContainer = document.querySelector(".game-container");
 const gameBoxes = document.querySelectorAll(".game-box");
 
-const gameBoard = () => {
+const gameBoard = (() => {
+    "use strict";
     const board = ["","","","","","","","",""];
 
     const boxContent = (index, symbol) => {
@@ -12,11 +13,7 @@ const gameBoard = () => {
         board = ["","","","","","","","",""];
     }
 
-    const getBoard = () => {
-        return board;
-    }
-
-    return { boxContent, resetBoard, getBoard };
+    return {board, boxContent, resetBoard};
 
     for(let gameBox of gameBoxes){
         gameBox.addEventListener("click", () => {
@@ -32,7 +29,7 @@ const gameBoard = () => {
         })
     }
     
-};
+})();
 
 const playerFactory = (name, symbol) => {
     this.name = name;
@@ -47,7 +44,6 @@ const playerFactory = (name, symbol) => {
 };
 
 const gameFlow = (() => {
-    const playerList = [];
 
     const assignPlayers = (() => {
         const first = playerFactory("Player One", "X");
@@ -62,21 +58,22 @@ const gameFlow = (() => {
                 } else {
                     currentPlayer = first;
                 }
-                gameBox.textContent = currentPlayer.getSymbol();
                 turn++;
+                gameBoard.boxContent(gameBox.id, currentPlayer.getSymbol());
+                console.log(gameBoard.board);
+                gameBox.textContent = gameBoard.board[gameBox.id];
             })
         }
-
-        return currentPlayer;
     });
 
     const optionA = document.getElementById("option-a");
     optionA.addEventListener("click", () => {
-        assignPlayers();
+
     });
 
     const startButton = document.querySelector(".start-button");
     startButton.addEventListener("click", () => {
         startButton.textContent = "Restart";
+        assignPlayers();
     });
 })();
