@@ -58,10 +58,11 @@ const gameFlow = (() => {
                 } else {
                     currentPlayer = first;
                 }
-                turn++;
-                gameBoard.boxContent(gameBox.id, currentPlayer.getSymbol());
-                console.log(gameBoard.board);
-                gameBox.textContent = gameBoard.board[gameBox.id];
+                if(gameBoard.board[gameBox.id] === ""){
+                    turn++;
+                    gameBoard.boxContent(gameBox.id, currentPlayer.getSymbol());
+                    gameBox.textContent = gameBoard.board[gameBox.id];
+                }
             })
         }
     });
