@@ -5,8 +5,8 @@ const gameBoard = (() => {
     "use strict";
     const board = ["","","","","","","","",""];
 
-    const boxContent = (index, symbol) => {
-        board[index] = symbol;
+    const boxContent = (index, player) => {
+        board[index] = player;
     };
 
     const resetBoard = () => {
@@ -14,58 +14,50 @@ const gameBoard = (() => {
     }
 
     return {board, boxContent, resetBoard};
-
-    for(let gameBox of gameBoxes){
-        gameBox.addEventListener("click", () => {
-            boxContent(gameBox.id, "X");
-            console.log(board);
-            gameBox.textContent = board[gameBox.id];
-            if(turn===true){
-                turn = false;
-            } else {
-                turn = true;
-            }
-            console.log(turn);
-        })
-    }
-    
 })();
 
 const playerFactory = (name, symbol) => {
     this.name = name;
     this.symbol = symbol;
-    const getName = () => {
-        return name
-    };
-    const getSymbol = () => {
-        return symbol
-    };
-    return { getName, getSymbol };
+    return { name, symbol };
 };
 
 const gameFlow = (() => {
 
-    const assignPlayers = (() => {
+    const assignPlayers = () => {
         const first = playerFactory("Player One", "X");
         const second = playerFactory("Player Two", "O");
 
+        return {first, second};
+    };
+
+    const turnRules = () => {
         let turn = 0;
-        let currentPlayer;
+        let currentPlayer = assignPlayers().first;
+
+/*        const checkWinner = (i) => {
+            console.log(gameBoard.board[i]);
+            console.log(gameBoard.board[i+1]);
+            if(gameBoard.board[i] === gameBoard.board[i+1] && gameBoard.board[i] === gameBoard.board[i+2]){
+                console.log("Hello");
+            }
+        };*/
+
         for(let gameBox of gameBoxes){
             gameBox.addEventListener("click", () => {
                 if(turn%2 === 1){
-                    currentPlayer = second;
+                    currentPlayer = assignPlayers().second;
                 } else {
-                    currentPlayer = first;
+                    currentPlayer = assignPlayers().first;
                 }
                 if(gameBoard.board[gameBox.id] === ""){
                     turn++;
-                    gameBoard.boxContent(gameBox.id, currentPlayer.getSymbol());
-                    gameBox.textContent = gameBoard.board[gameBox.id];
+                    gameBoard.boxContent(gameBox.id, currentPlayer);
+                    gameBox.textContent = gameBoard.board[gameBox.id].symbol;
                 }
             })
         }
-    });
+    }
 
     const optionA = document.getElementById("option-a");
     optionA.addEventListener("click", () => {
@@ -76,5 +68,6 @@ const gameFlow = (() => {
     startButton.addEventListener("click", () => {
         startButton.textContent = "Restart";
         assignPlayers();
+        turnRules();
     });
 })();
