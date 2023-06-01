@@ -3,14 +3,14 @@ const gameBoxes = document.querySelectorAll(".game-box");
 
 const gameBoard = (() => {
     "use strict";
-    const board = ["","","","","","","","",""];
+    let board = [0,1,2,3,4,5,6,7,8];
 
     const boxContent = (index, player) => {
         board[index] = player;
     };
 
     const resetBoard = () => {
-        board = ["","","","","","","","",""];
+        board = [0,1,2,3,4,5,6,7,8];
     }
 
     return {board, boxContent, resetBoard};
@@ -21,6 +21,25 @@ const playerFactory = (name, symbol) => {
     this.symbol = symbol;
     return { name, symbol };
 };
+
+const winningCombos = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+];
+
+const checkWinner = arr => {
+    winningCombos.forEach(combo => {
+        if(arr[combo[0]].symbol && arr[combo[0]].symbol === arr[combo[1]].symbol && arr[combo[1]].symbol === arr[combo[2]].symbol){
+            console.log(`Winner is ${arr[combo[0]].name}`);
+        }
+    })
+}
 
 const gameFlow = (() => {
 
@@ -50,10 +69,11 @@ const gameFlow = (() => {
                 } else {
                     currentPlayer = assignPlayers().first;
                 }
-                if(gameBoard.board[gameBox.id] === ""){
+                if(typeof gameBoard.board[gameBox.id] === "number"){
                     turn++;
                     gameBoard.boxContent(gameBox.id, currentPlayer);
                     gameBox.textContent = gameBoard.board[gameBox.id].symbol;
+                    checkWinner(gameBoard.board);
                 }
             })
         }
@@ -71,3 +91,5 @@ const gameFlow = (() => {
         turnRules();
     });
 })();
+
+
