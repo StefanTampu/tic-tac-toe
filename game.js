@@ -1,3 +1,8 @@
+const optionButtons = document.querySelectorAll(".option-button")
+const optionA = document.getElementById("option-a");
+const optionB = document.getElementById("option-b");
+const startButton = document.querySelector(".start-button");
+const mainContainer = document.querySelector(".main-container");
 const gameContainer = document.querySelector(".game-container");
 const gameBoxes = document.querySelectorAll(".game-box");
 
@@ -22,45 +27,49 @@ const playerFactory = (name, symbol) => {
     return { name, symbol };
 };
 
-const winningCombos = [
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-];
-
-const checkWinner = arr => {
-    winningCombos.forEach(combo => {
-        if(arr[combo[0]].symbol && arr[combo[0]].symbol === arr[combo[1]].symbol && arr[combo[1]].symbol === arr[combo[2]].symbol){
-            console.log(`Winner is ${arr[combo[0]].name}`);
-        }
-    })
-}
 
 const gameFlow = (() => {
 
     const assignPlayers = () => {
-        const first = playerFactory("Player One", "X");
-        const second = playerFactory("Player Two", "O");
+        const first = playerFactory("Player 1", "X");
+        const second = playerFactory("Player 2", "O");
 
         return {first, second};
     };
 
+    const winningCombos = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+    ];
+    
+    const checkWinner = arr => {
+        let winner;
+        let gameWon = false;
+        winningCombos.forEach(combo => {
+            if(arr[combo[0]].symbol && arr[combo[0]].symbol === arr[combo[1]].symbol && arr[combo[1]].symbol === arr[combo[2]].symbol){
+                winner = arr[combo[0]].name;
+                gameWon = true;
+
+                const gameResult = document.createElement("h2");
+                gameResult.classList.add("game-result");
+                gameResult.textContent = `${arr[combo[0]].name} won the game!`;
+                mainContainer.insertBefore(gameResult, gameContainer);
+
+                Object.assign(startButton.style,{backgroundColor: "#9b0103", color: "#ffeabb"});
+            }
+        })
+        return {winner, gameWon};
+    }
+
     const turnRules = () => {
         let turn = 0;
         let currentPlayer = assignPlayers().first;
-
-/*        const checkWinner = (i) => {
-            console.log(gameBoard.board[i]);
-            console.log(gameBoard.board[i+1]);
-            if(gameBoard.board[i] === gameBoard.board[i+1] && gameBoard.board[i] === gameBoard.board[i+2]){
-                console.log("Hello");
-            }
-        };*/
 
         for(let gameBox of gameBoxes){
             gameBox.addEventListener("click", () => {
@@ -77,19 +86,21 @@ const gameFlow = (() => {
                 }
             })
         }
+
+        console.log(checkWinner.gameWon);
     }
 
-    const optionA = document.getElementById("option-a");
-    optionA.addEventListener("click", () => {
-
-    });
-
-    const startButton = document.querySelector(".start-button");
-    startButton.addEventListener("click", () => {
-        startButton.textContent = "Restart";
-        assignPlayers();
-        turnRules();
-    });
+    return {assignPlayers, checkWinner, turnRules}
 })();
 
+const gameStartStop = () => {
+    startButton.addEventListener("click", () => {
+        startButton.textContent = "Restart";
+        gameFlow.turnRules();
+    }); 
+};
+
+for(let optionButton of optionButtons){
+    optionButton.addEventListener("click", gameStartStop); 
+}
 
