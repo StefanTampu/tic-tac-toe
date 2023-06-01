@@ -38,6 +38,12 @@ body {
     gap: 1rem;
 }
 
+.choice-container h2 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-variant: small-caps;
+}
+
 .option-button {
     width: 80%;
     text-align: center;
