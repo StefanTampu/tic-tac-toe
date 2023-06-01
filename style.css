@@ -38,7 +38,7 @@ body {
     gap: 1rem;
 }
 
-.option-container {
+.option-button {
     width: 80%;
     text-align: center;
     padding: 0.5rem;
@@ -50,7 +50,7 @@ body {
     border-radius: 0.3rem;
 }
 
-.option-container:hover {
+.option-button:hover {
     background-color: var(--tangerine);
     color: var(--white);
     cursor: pointer;
