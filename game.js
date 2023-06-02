@@ -15,7 +15,9 @@ const gameBoard = (() => {
     };
 
     const resetBoard = () => {
-        board = [0,1,2,3,4,5,6,7,8];
+        for (let i = 0; i < board.length; i++){
+            board[i] = i;
+        }
     }
 
     return {board, boxContent, resetBoard};
@@ -48,28 +50,41 @@ const gameFlow = (() => {
         [2,4,6]
     ];
     
+    let gameStarted = false;
+    let turn = 0;
     let winner;
     let gameWon = false;
+    let gameTie = false;
 
-    const checkWinner = (() => {
+    const gameResult = document.createElement("h2");
+    gameResult.classList.add("game-result");
+
+    const checkWinner = () => {
         let arr = gameBoard.board;
         winningCombos.forEach(combo => {
             if(arr[combo[0]].symbol && arr[combo[0]].symbol === arr[combo[1]].symbol && arr[combo[1]].symbol === arr[combo[2]].symbol){
                 winner = arr[combo[0]].name;
                 gameWon = true;
 
-                const gameResult = document.createElement("h2");
-                gameResult.classList.add("game-result");
                 gameResult.textContent = `${arr[combo[0]].name} won the game!`;
                 mainContainer.insertBefore(gameResult, gameContainer);
 
                 Object.assign(startButton.style,{backgroundColor: "#9b0103", color: "#ffeabb"});
             }
         })
-    });
+    };
+
+    const checkTie = () => {
+        let arr = gameBoard.board;
+        const filled = element => element.symbol === "X" || element.symbol === "O";
+        if (gameWon === false && arr.every(filled) === true){
+            gameTie = true;
+            gameResult.textContent = `It's a tie!`;
+            mainContainer.insertBefore(gameResult, gameContainer);
+        }
+    }
 
     const turnRules = () => {
-        let turn = 0;
         let currentPlayer = assignPlayers().first;
 
         for(let gameBox of gameBoxes){
@@ -79,12 +94,16 @@ const gameFlow = (() => {
                 } else {
                     currentPlayer = assignPlayers().first;
                 }
-                if(typeof gameBoard.board[gameBox.id] === "number" && winner === undefined){
+                if(typeof gameBoard.board[gameBox.id] === "number" && gameWon === false && gameTie === false){
                     turn++;
                     gameBoard.boxContent(gameBox.id, currentPlayer);
                     gameBox.textContent = gameBoard.board[gameBox.id].symbol;
                     checkWinner();
-                    console.log(winner);
+                    checkTie();
+                    if (gameStarted === false){
+                        gameStarted = true;
+                        startButton.textContent = "Restart";
+                    }
                 }
             })
         }
@@ -92,8 +111,23 @@ const gameFlow = (() => {
 
     const gameStartStop = () => {
         startButton.addEventListener("click", () => {
-            startButton.textContent = "Restart";
-            gameFlow.turnRules();
+            if (gameStarted === false){
+                gameStarted = true;
+                startButton.textContent = "Restart";
+                turnRules();
+            } else {
+                gameStarted = false;
+                startButton.textContent = "Start";
+                gameBoard.resetBoard();
+                gameBoxes.forEach(gameBox => {
+                    gameBox.textContent = "";
+                })
+                turn = 0;
+                winner = undefined;
+                gameWon = false;
+                gameTie = false;
+                gameResult.textContent = "";
+            }
         }); 
     };
 
