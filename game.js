@@ -48,9 +48,11 @@ const gameFlow = (() => {
         [2,4,6]
     ];
     
-    const checkWinner = arr => {
-        let winner;
-        let gameWon = false;
+    let winner;
+    let gameWon = false;
+
+    const checkWinner = (() => {
+        let arr = gameBoard.board;
         winningCombos.forEach(combo => {
             if(arr[combo[0]].symbol && arr[combo[0]].symbol === arr[combo[1]].symbol && arr[combo[1]].symbol === arr[combo[2]].symbol){
                 winner = arr[combo[0]].name;
@@ -64,8 +66,7 @@ const gameFlow = (() => {
                 Object.assign(startButton.style,{backgroundColor: "#9b0103", color: "#ffeabb"});
             }
         })
-        return {winner, gameWon};
-    }
+    });
 
     const turnRules = () => {
         let turn = 0;
@@ -78,29 +79,30 @@ const gameFlow = (() => {
                 } else {
                     currentPlayer = assignPlayers().first;
                 }
-                if(typeof gameBoard.board[gameBox.id] === "number"){
+                if(typeof gameBoard.board[gameBox.id] === "number" && winner === undefined){
                     turn++;
                     gameBoard.boxContent(gameBox.id, currentPlayer);
                     gameBox.textContent = gameBoard.board[gameBox.id].symbol;
-                    checkWinner(gameBoard.board);
+                    checkWinner();
+                    console.log(winner);
                 }
             })
         }
-
-        console.log(checkWinner.gameWon);
     }
 
-    return {assignPlayers, checkWinner, turnRules}
+    const gameStartStop = () => {
+        startButton.addEventListener("click", () => {
+            startButton.textContent = "Restart";
+            gameFlow.turnRules();
+        }); 
+    };
+
+
+    return {assignPlayers, turnRules, gameStartStop}
 })();
 
-const gameStartStop = () => {
-    startButton.addEventListener("click", () => {
-        startButton.textContent = "Restart";
-        gameFlow.turnRules();
-    }); 
-};
 
 for(let optionButton of optionButtons){
-    optionButton.addEventListener("click", gameStartStop); 
+    optionButton.addEventListener("click", gameFlow.gameStartStop); 
 }
 
