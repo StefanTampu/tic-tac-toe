@@ -69,7 +69,8 @@ const gameFlow = (() => {
                 gameResult.textContent = `${arr[combo[0]].name} won the game!`;
                 mainContainer.insertBefore(gameResult, gameContainer);
 
-                Object.assign(startButton.style,{backgroundColor: "#9b0103", color: "#ffeabb"});
+                startButton.classList.remove("sbtn-original");
+                startButton.classList.add("sbtn-restart");
             }
         })
     };
@@ -81,6 +82,8 @@ const gameFlow = (() => {
             gameTie = true;
             gameResult.textContent = `It's a tie!`;
             mainContainer.insertBefore(gameResult, gameContainer);
+            startButton.classList.remove("sbtn-original");
+            startButton.classList.add("sbtn-restart");
         }
     }
 
@@ -127,6 +130,8 @@ const gameFlow = (() => {
                 gameWon = false;
                 gameTie = false;
                 gameResult.textContent = "";
+                startButton.classList.add("sbtn-original");
+                startButton.classList.remove("sbtn-restart");
             }
         }); 
     };

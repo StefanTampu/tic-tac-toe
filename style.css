@@ -67,14 +67,27 @@ body {
     font-variant:small-caps;
     font-weight: 600;
     padding: 0.25rem 1rem;
-    background-color: var(--apricot);
     border: 0.2rem solid var(--tangerine);
     border-radius: 0.3rem;
 }
 
-.start-button:hover {
+.sbtn-original {
+    background-color: var(--apricot);
+}
+
+.sbtn-restart {
     background-color: var(--berry);
     color: var(--white);
+}
+
+.sbtn-original:hover {
+    background-color: var(--berry);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.sbtn-restart:hover {
+    background-color: var(--apricot);
     cursor: pointer;
 }
 
