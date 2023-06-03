@@ -28,18 +28,18 @@ body {
 .choice-container {
     width: 85%;
     height: 30%;
-    border-radius: 1rem;
+    border-radius: 16px;
     background-color: var(--white);
     box-shadow: 0px 4px 8px var(--berry), 0px 4px 8px var(--tangerine) inset;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .choice-container h2 {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 900;
     font-variant: small-caps;
 }
@@ -47,13 +47,13 @@ body {
 .option-button {
     width: 80%;
     text-align: center;
-    padding: 0.5rem;
-    font-size: 1.5rem;
+    padding: 8px;
+    font-size: 24px;
     font-variant:small-caps;
     font-weight: 600;
     background-color: var(--apricot);
-    border: 0.2rem solid var(--berry);
-    border-radius: 0.3rem;
+    border: 3px solid var(--berry);
+    border-radius: 5px;
 }
 
 .option-button:hover {
@@ -63,12 +63,12 @@ body {
 }
 
 .start-button {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-variant:small-caps;
     font-weight: 600;
-    padding: 0.25rem 1rem;
-    border: 0.2rem solid var(--tangerine);
-    border-radius: 0.3rem;
+    padding: 4px 16px;
+    border: 3px solid var(--tangerine);
+    border-radius: 5px;
 }
 
 .sbtn-original {
@@ -102,19 +102,19 @@ body {
     flex-direction: column;
     align-items: center;
     justify-items: center;
-    gap: 2rem;
-    padding: 1rem;
+    gap: 32px;
+    padding: 16px;
 }
 
 .main-container h1 {
-    font-size: 4rem;
+    font-size: 64px;
     font-weight: 900;
     text-transform: uppercase;
     color: var(--berry);
 }
 
 .game-result {
-    font-size: 2.5rem;
+    font-size: 40px;
     font-variant: small-caps;
     color: var(--berry);
     grid-row: 2;
@@ -130,7 +130,7 @@ body {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     background: linear-gradient(135deg, var(--berry), var(--tangerine), var(--apricot), var(--berry), var(--apricot), var(--tangerine), var(--berry));
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .game-box {
@@ -138,7 +138,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 8rem;
+    font-size: 128px;
     color: var(--berry);
 }
 
