@@ -113,7 +113,6 @@ const gameFlow = (() => {
     }
 
     const gameStartStop = () => {
-        let a = gameBoard.board;
         startButton.addEventListener("click", () => {
             gameBoxes.forEach(gameBox => {
                 gameBox.classList.add("game-box-pointer");
